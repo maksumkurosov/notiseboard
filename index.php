@@ -6,28 +6,18 @@ session_start();
 
 define('ROOT', dirname(__FILE__));
 
-//echo ROOT.'/config/Autoload.php';
-//require_once ('config/Autoload.php');
-
 require_once (ROOT.'\config\Autoload.php');
-
-$userController = new UserController();
-//echo $userController->test();
-$user = new User();
+//print_r($objects);
+$menu = new MenuController();
+$modelMenu = new Menu();
+$user = new UserController();
+$advertisement = new Advertisement();
 $category = new Category();
-require_once 'view/maine.php';
+$categoryController = new CategoryController();
+
+
+require_once 'view/index.php';
+
+
 ?>
-<html>
-<head>
-    <title>Noticeboard</title>
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="dropdown.css"  rel="stylesheet">
-</head>
-<body>
 
-</body>
-
-<script src="bootstrap/js/jquery-3.3.1.min.js"></script>
-<script src="bootstrap/js/popper.min.js" type="script"></script>
-<script src="bootstrap/js/bootstrap.js" type="script"></script>
-<script src="bootstrap/js/bootstrap.bundle.js"></script>

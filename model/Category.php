@@ -1,59 +1,70 @@
 <?php
 
-class Category
+class Category extends App
 {
-
-    public function CategoryList ()
+    public function getChildCategoryId($parentCatId)
     {
-        $db = Db::getConnection();
+        $sql = 'SELECT * FROM category WHERE parent = :parent_id';
 
-        $result = $db->query('SELECT * FROM category');
+        $result = $this->db->prepare($sql);
 
+        $result->bindParam(':parent_id', $parentCatId, PDO::PARAM_INT);
 
-        $categoryList = array();
+        // Указываем, что хотим получить данные в виде массива
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+
+        // Выполняем запрос
+        $result->execute();
+
+        $childCategory = array();
+
         while ($row = $result->fetch()) {
-            $categoryList[$row['id']] = $row;
+            $childCategory[] = $row;
         }
-        return $categoryList;
+        // Возвращаем данные
+        return $childCategory;
     }
 
-    public function getTree($dataset) {
-        $tree = array();
-
-        foreach ($dataset as $id => &$node) {
-            if (!$node['parent']) {
-                $tree[$id] = &$node;
-            } else {
-                $dataset[$node['parent']]['childs'][$id] = &$node;
-            }
-        }
-        return $tree;
-    }
-
-    public function tplMenu($category){
-        $menu = '<li class="dropdown-submenu"><a href="#" title="'. $category['name'] .'">'.
-            $category['name'].'</a>';
-
-        if(isset($category['childs'])){
-            $menu .= '<ul class="dropdown-menu">'. $this->showCat($category['childs']) .'</ul>';
-        }
-        $menu .= '</li>';
-
-        return $menu;
-    }
-
-    public function showCat($data){
-        $string = '';
-        foreach($data as $item){
-            $string .= $this->tplMenu($item);
-        }
-        return $string;
-    }
-
-    public function getNoteByCategory ($categoryName)
+    public function getCurrentCategory($url)
     {
+        // Текст запроса к БД
+        $sql = 'SELECT * FROM category WHERE url = :url';
 
+        // Используется подготовленный запрос
+        $result = $this->db->prepare($sql);
+        $result->bindParam(':url', $url, PDO::PARAM_STR);
+
+        // Указываем, что хотим получить данные в виде массива
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+
+        // Выполняем запрос
+        $result->execute();
+
+        // Возвращаем данные
+        return $result->fetch();
     }
 
+    public function getProductsByCategories($cat)
+    {
+        $sql = "SELECT * FROM advertisement WHERE category_id IN ($cat)";
 
+        $result = $this->db->prepare($sql);
+
+        //$result->bindParam(':categories', $cat, PDO::PARAM_STR);
+
+        // Указываем, что хотим получить данные в виде массива
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+
+        // Выполняем запрос
+        $result->execute();
+        //$result->debugDumpParams();
+        $products = array();
+
+        while ($row = $result->fetch()) {
+            $products[] = $row;
+        }
+        // Возвращаем данные
+
+        return $products;
+    }
 }

@@ -1,6 +1,7 @@
 <?php
-
+//require_once '../config/Db.php';
 class User
+
 {
     public static function register($name,$email,$password)
     {
@@ -72,7 +73,7 @@ class User
         return false;
     }
 
-    public static function checkEmailExists($email)
+    public static function checkCorectEmail($email)
     {
         $db = Db::getConnection();
 
