@@ -62,8 +62,4 @@ class MenuController
         return $string;
     }
 
-    public function blabla($url)
-    {
-       // $cat =
-    }
 }

@@ -8,11 +8,11 @@ if (empty($_GET)) {
 //}
 
 
-if (isset($_GET['page'])&& $_GET['page']=='login') {
+if (isset($_GET['page']) && $_GET['page']=='login') {
     require_once 'view/auth/login.php';
 }
 
-if (isset($_GET['page'])&&$_GET['page']=='registration') {
+if (isset($_GET['page']) && $_GET['page']=='registration') {
     require_once 'view/auth/registration.php';
 }
 
@@ -26,12 +26,20 @@ if (isset($_GET['item'])) {
     require_once 'view/parts/currentItem.php';
 }
 
-if (isset($_GET['exit'])) {
-    echo 'qweqweqwe';
+if (isset($_POST['exit'])) {
+    $user::unsetSessionName();
 }
 
+if (isset($_GET['page']) && $_GET['page']=='create-advertisement') {
+    $categoryList = $modelMenu::CategoryList();
+    if (!empty($_SESSION['email'])) {
+        require_once 'view/parts/newadvertisement.php';
+    } else {
+        echo 'Ви хто такі? Ідіть нахуй звідси!';
+    }
+}
 if (isset($_POST['form_login'])) {
-    $user::checkUserData($_POST['email'],$_POST['password']);
+    //$user::checkUserData($_POST['email'],$_POST['password']);
     if ($user::checkUserData($_POST['email'],$_POST['password'])) {
         $user::setSessionName($_POST['email']);
     }

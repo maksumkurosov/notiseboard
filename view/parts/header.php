@@ -1,10 +1,20 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<!--    <form  class="form-inline my-2 my-lg-0" method="post">-->
     <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
             <a href="/index.php" class="nav-link">Головна</a>
         </li>
+        <?php
+        if (isset($_SESSION['email'])) {
+            ?>
+            <a href="?page=create-advertisement" class="btn btn-primary">Create Advertisement</a>
+        <?php
+        }
+        ?>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+<!--    </form>-->
+
+    <form class="form-inline my-2 my-lg-0" method="post">
         <?php
         if (isset($_SESSION['email'])){
             echo '<ul class="navbar-nav mr-auto">
