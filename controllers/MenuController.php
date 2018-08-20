@@ -61,5 +61,21 @@ class MenuController
         }
         return $string;
     }
+    public function getFirstList(){
+        $list = Menu::firstList();
+        
+        return $list;
+
+    }
+    public function getSubcategoryById($id){
+
+        $list = Menu::subcategoryList($id);
+
+        if (!$list){
+            echo 'підкатегорій не знайдено';
+        }
+
+        return $list;
+    }
 
 }

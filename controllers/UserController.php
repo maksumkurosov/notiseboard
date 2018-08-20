@@ -13,10 +13,14 @@ class UserController
     {
         $_SESSION['email'] = $login;
 
+        header('Location:/');
+
     }
     public static function unsetSessionName()
     {
         unset($_SESSION['email']);
+
+        header('Location:/');
 
     }
     public static function  checkUserData($email, $password)
